@@ -1,0 +1,392 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>사업소개 - 굴뚝 TMS | (주)테크코리아</title>
+
+     <!-- 💡 파비콘 설정 -->
+    <link rel="icon" href="/Main_Icon_Last.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            height: auto;
+        }
+
+        header {
+            width: 100%;
+            height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 100px;
+            padding: 0 40px 0 0;
+            background: rgb(255, 255, 255);
+            border-bottom: 1px solid rgb(128, 20, 228);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); 
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            padding-left: 0px;
+        }
+
+        .logo img {
+            max-height: 80px;
+            width: auto;
+            display: block;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: rgb(31, 29, 29);
+            font-size: 17px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            color: hsl(271, 100%, 70%);
+        }
+
+        .main-content {
+            width: 100%;
+            padding: 50px 60px;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
+        .content-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e9ecef;
+        }
+
+        .content-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid rgb(128, 20, 228);
+        }
+
+        .content-body {
+            font-size: 16px;
+            line-height: 1.9;
+            color: #495057;
+        }
+
+        .content-body h2 {
+            font-size: 20px;
+            color: #111827;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 4px solid rgb(128, 20, 228);
+        }
+
+        .content-body p {
+            margin-bottom: 15px;
+            word-break: keep-all;
+        }
+
+        .content-body ul {
+            margin-left: 20px;
+            margin-bottom: 25px;
+        }
+
+        .content-body li {
+            margin-bottom: 10px;
+            word-break: keep-all;
+        }
+
+        .content-body li strong {
+            color: #212529;
+        }
+
+        .process-list {
+            list-style-type: decimal;
+            margin-left: 20px;
+        }
+
+        .process-list li {
+            margin-bottom: 12px;
+        }
+
+        footer {
+            width: 100%;
+            min-height: 160px;
+            background-color: #212529;
+            color: #adb5bd;
+            padding: 30px 60px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .footer-content p {
+            margin: 0;
+            word-break: keep-all;
+        }
+
+        .footer-content .company-info {
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 85px;
+        }
+
+        .dropdown-menu {
+            display: none;            
+            position: absolute;
+            top: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 10px 0;
+            list-style: none;
+            z-index: 1000;
+        }
+
+        .dropdown-menu li a {
+            color: #333333;
+            padding: 10px 20px;
+            display: block;
+            font-size: 15px;
+            font-weight: 500;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #f8f9fa;
+            color: hsl(271, 100%, 60%);
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            header {
+                height: auto;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+
+            .logo {
+                padding-left: 0;
+            }
+
+            .logo img {
+                max-height: 50px;
+            }
+
+            nav {
+                width: 100%;
+                gap: 25px;
+                overflow-x: auto;
+                padding-bottom: 5px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .dropdown {
+                height: auto;
+            }
+
+            .dropdown-menu {
+                top: 100%;
+                left: 0;
+                transform: none;
+            }
+
+            .main-content {
+                padding: 25px 15px;
+            }
+
+            .content-container {
+                padding: 25px 20px;
+            }
+
+            .content-title {
+                font-size: 22px;
+            }
+
+            .content-body h2 {
+                font-size: 18px;
+            }
+
+            .content-body {
+                font-size: 15px;
+            }
+
+            footer {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- 회사 로고 이미지 -->
+        <div class="logo">
+            <a href="/">
+                <img src="/Main_Logo.png" alt="회사 로고">
+            </a>
+        </div>
+
+        <!-- 네비게이션 메뉴 -->
+        <nav>
+            <!-- 회사소개 메뉴 -->
+            <div class="dropdown">
+                <a href="/greeting">회사소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/greeting">대표이사 인사말</a></li>
+                    <li><a href="history">회사연혁</a></li>
+                    <li><a href="/location">오시는길</a></li>
+                </ul>
+            </div>
+
+            <!-- 사업소개 메뉴 -->
+            <div class="dropdown">
+                <a href="/StackTms">사업소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/StackTms">굴뚝TMS</a></li>
+                    <li><a href="/WaterTms">수질TMS</a></li>
+                    <li><a href="/adasdasd">크리티컬포인트</a></li>
+                    <li><a href="/FlareTms">Flare Stack</a></li>
+                    <li><a href="/HMITMS">HMI 모니터링 프로그램</a></li>
+                </ul>
+            </div>
+
+            <!-- 제품소개 메뉴 -->
+            <div class="dropdown">
+                <a href="/DLStack">제품소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/DLStack">Data Logger(Stack)</a></li>
+                    <li><a href="/DLWater">Data Logger(Water)</a></li>
+                    <li><a href="/DLFlare">Data Logger(Flare)</a></li>
+                    <li><a href="/FEPTotal">Data FEP(통합)</a></li>
+                    <li><a href="/Flowmeter">유속계(XFLOW-10)</a></li>
+                    <li><a href="/HMITMS">관제프로그램(NOBA_TMS)</a></li>
+                    <li><a href="/DigitalDDAD">디지털컨버터(DD/AD)</a></li>
+                </ul>
+            </div>
+          
+            <a href="/resources">자료실</a>
+            <a href="/SparePart">Spare Part</a>
+            <a href="/support">고객지원</a>
+        </nav>
+    </header>
+
+    <!-- 💡 본문 영역: 굴뚝 TMS 사업소개 -->
+    <main class="main-content">
+        <div class="content-container">
+            <h1 class="content-title">굴뚝 TMS 솔루션 구축 사업</h1>
+            <div class="content-body">
+                <h2>1. 사업 개요</h2>
+                <p>
+                    사업장 굴뚝에서 배출되는 대기오염물질(TSP, SOx, NOx, HCl, Flow, NH3, CO 등)과 보정항목(유속, 온도, 산소, 습도)을 24시간 실시간 측정·수집하고, 한국환경공단 관제센터로 무결성 데이터를 전송하는 <strong>굴뚝 원격감시체계(CleanSYS) 데이터 로거, 통신 장비 및 사업장 자체 모니터링 시스템(HMI) 구축 사업</strong>입니다.
+                </p>
+
+                <h2>2. 주요 제공 솔루션 및 제품</h2>
+                <ul>
+                    <li>
+                        <strong>자료수집장치 (Data Logger)</strong>
+                        <br>· 대기오염물질 분석기 및 유속/보정 항목 측정기 데이터 실시간 수집 및 연산 처리
+                        <br>· 한국환경공단 굴뚝 TMS 통신 규격(5분 데이터, 30분 이동평균 데이터 연산) 준수 및 암호화 전송 지원
+                        <br>· 통신 장애에 대비한 내장 메모리 데이터 저장 및 자동 재전송(Fail-over) 기능 제공
+                    </li>
+                    <li>
+                        <strong>중간자료 수집기 (FEP / Front End Processor)</strong>
+                        <br>· 다수의 Data Logger 및 사업장 내 측정 단말 통신 트래픽 부하 분산 처리
+                        <br>· 한국환경공단 관제센터 통신망과의 인터페이스 안정성 확보 및 백업 링커 구현
+                    </li>
+                    <li>
+                        <strong>연돌 유량 자동 측정 및 보정 연동 솔루션</strong>
+                        <br>· 굴뚝 유속계, 온도계, 산소농도계 등 보정 장비 신호 인터페이스 연동 및 유량 연산 처리
+                    </li>
+                    <li>
+                        <strong>사업장 통합 관제 시스템 (HMI / 모니터링 S/W)</strong>
+                        <br>· 굴뚝별 배출 오염물질 실시간 모니터링 및 경보(Alarm) 시스템 제공
+                        <br>· 배출허용기준 사전 이황화 알람을 통한 방지시설 최적 운영 지원
+                        <br>· 행정 제출용 보고서 생성 및 이력 데이터 관리 기능
+                    </li>
+                </ul>
+
+                <h2>3. 시스템 구성 및 데이터 흐름</h2>
+                <ol class="process-list">
+                    <li><strong>현장 측정 단말 (사업장 굴뚝)</strong>: 오염물질 분석기, 유속계, 온도/산소 측정기 데이터 신호 출력</li>
+                    <li><strong>Data Logger & FEP</strong>: 실시간 수집, 5분/30분 연산 , 데이터 무결성 검증 및 전송 패킷 생성</li>
+                    <li>
+                        <strong>이원화 인터페이스</strong>:
+                        <br>· <strong>사업장 자체 모니터링 (HMI)</strong>: 현장 제어실 실시간 배출 현황 관제 및 자체 알람
+                        <br>· <strong>한국환경공단 CleanSYS 관제센터</strong>: 수도권, 호남권, 영남권, 중부권 관제센터로 데이터 암호화 송수신
+                    </li>
+                </ol>
+
+                <h2>4. 핵심 경쟁력 및 도입 효과</h2>
+                <ul>
+                    <li><strong>공동 표준 완벽 준수</strong>: 한국환경공단 CleanSYS 전송 표준 규격 및 공정시험기준 완벽 연동</li>
+                    <li><strong>안정적인 데이터 연속성</strong>: 24시간 365일 무중단 동작 및 통신 장애 발생 시 복구 모듈을 통한 데이터 손실 방지</li>
+                    <li><strong>법적 리스크 사전 방지</strong>: 배출허용기준 초과 임계치 접근 시 즉각적인 경보 발송으로 행정처분 위험 완화</li>
+                    <li><strong>유연한 시스템 확장성</strong>: 배출시설 추가 및 측정기 교체 시 유연하게 응용 가능한 모듈형 Architecture 구조</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- 푸터 영역 -->
+    <footer>
+        <div class="footer-content">
+            <p class="company-info">(주)테크코리아 (TechKorea)</p>
+            <p>주소: 서울시 금천구 디지털로130,1114호 (남성프라자) </p>
+            <p>이메일: tech-korea@naver.com | 전화번호: 02-862-3251 | 팩스 : 02-865-3251</p>
+            <p style="margin-top: 10px; font-size: 12px; color: #6c757d;">Copyright © Techkorea Co., Ltd. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

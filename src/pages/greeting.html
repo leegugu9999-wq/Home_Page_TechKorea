@@ -1,0 +1,340 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>대표이사 인사말 - (주)테크코리아</title>
+
+     <!-- 💡 파비콘 설정 (아이콘 변경을 원하실 때 이 경로의 파일명을 교체해 주세요) -->
+    <link rel="icon" href="/Main_Icon_Last.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 💡 스크롤 제한을 해제하여 내용이 길어지면 자연스럽게 스크롤되도록 설정 */
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            height: auto;
+        }
+
+      header {
+    width: 100%;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 100px;
+    padding: 0 40px 0 0;
+    background: rgb(255, 255, 255);
+    border-bottom: 1px solid rgb(128, 20, 228);
+    
+    /* 💡 스크롤 이동 시 최상단 고정 설정 */
+    position: sticky; /* position: relative; 대신 sticky로 변경 */
+    top: 0;          /* 화면 맨 위에 붙도록 설정 */
+    z-index: 1000;   /* 본문 콘텐츠 위로 헤더가 올라오도록 z-index 수치 상향 */
+    
+    /* (선택 사항) 스크롤 시 본문 내용이 헤더 밑으로 비치는 것을 방지하기 위한 그림자 효과 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); 
+}
+
+        /* 로고 영역 및 이미지 크기 제어 */
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            padding-left: 0px;  /* 로고을 왼쪽에서 띄울려면 값이 넣는다*/
+        }
+
+        .logo img {
+            max-height: 80px;
+            width: auto;
+            display: block;
+        }
+
+        /* 네비게이션 메뉴 */
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: rgb(31, 29, 29);
+            font-size: 17px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+        }
+
+        /* 메뉴 호버 효과 */
+        nav a:hover {
+            color: hsl(271, 100%, 70%);
+        }
+
+        /* 💡 본문 영역: 최소 높이를 보장하고 내용이 많으면 자연스럽게 확장되도록 수정 */
+        .main-content {
+            width: 100%;
+            padding: 50px 60px;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* 인사말 컨테이너 박스 */
+        .greeting-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e9ecef;
+        }
+
+        .greeting-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid rgb(128, 20, 228);
+        }
+
+        .greeting-body {
+            font-size: 16px;
+            line-height: 1.9;
+            color: #495057;
+        }
+
+        .greeting-body p {
+            margin-bottom: 20px;
+            word-break: keep-all;
+        }
+
+        .greeting-signature {
+            margin-top: 40px;
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
+            color: #212529;
+        }
+
+        /* 화면 맨 하단 푸터 영역 스타일 */
+        footer {
+            width: 100%;
+            min-height: 160px;
+            background-color: #212529;
+            color: #adb5bd;
+            padding: 30px 60px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .footer-content p {
+            margin: 0;
+            word-break: keep-all;
+        }
+
+        .footer-content .company-info {
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        /* 1. 드롭다운 전체 상자 영역 */
+        .dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 85px;
+        }
+
+        /* 2. 평소에는 서브메뉴를 숨김 */
+        .dropdown-menu {
+            display: none;            
+            position: absolute;
+            top: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 10px 0;
+            list-style: none;
+            z-index: 1000; /* 메뉴가 메인 콘텐츠에 가려지지 않도록 최상단 고정 */
+        }
+
+        .dropdown-menu li a {
+            color: #333333;
+            padding: 10px 20px;
+            display: block;
+            font-size: 15px;
+            font-weight: 500;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #f8f9fa;
+            color: hsl(271, 100%, 60%);
+        }
+
+        /* 3. 마우스를 올렸을 때 서브메뉴 표시 */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* 📱 모바일 및 태블릿 대응 미디어 쿼리 */
+        @media (max-width: 1024px) {
+            header {
+                height: auto;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+
+            .logo {
+                padding-left: 0;
+            }
+
+            .logo img {
+                max-height: 50px;
+            }
+
+            nav {
+                width: 100%;
+                gap: 25px;
+                overflow-x: auto;
+                padding-bottom: 5px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .dropdown {
+                height: auto;
+            }
+
+            .dropdown-menu {
+                top: 100%;
+                left: 0;
+                transform: none;
+            }
+
+            .main-content {
+                padding: 25px 15px;
+            }
+
+            .greeting-container {
+                padding: 25px 20px;
+            }
+
+            .greeting-title {
+                font-size: 22px;
+            }
+
+            .greeting-body {
+                font-size: 15px;
+            }
+
+            footer {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- 회사 로고 이미지 -->
+        <div class="logo">
+            <a href="/">
+                <img src="/Main_Logo.png" alt="회사 로고">
+            </a>
+        </div>
+
+        <!-- 네비게이션 메뉴 (메인페이지와 동일) -->
+        <nav>
+            <!-- 회사소개 메뉴 -->
+            <div class="dropdown">
+                <a href="/greeting">회사소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/greeting">대표이사 인사말</a></li>
+                    <li><a href="history">회사연혁</a></li>
+                    <li><a href="/location">오시는길</a></li>
+                </ul>
+            </div>
+
+            <!-- 사업소개 메뉴 -->
+            <div class="dropdown">
+                <a href="/StackTms">사업소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/StackTms">굴뚝TMS</a></li>
+                    <li><a href="/WaterTms">수질TMS</a></li>
+                    <li><a href="/adasdasd">크리티컬포인트</a></li>
+                    <li><a href="/FlareTms">Flare Stack</a></li>
+                    <li><a href="/HMITMS">HMI 모니터링 프로그램</a></li>
+                </ul>
+            </div>
+
+            <!-- 제품소개 메뉴 -->
+            <div class="dropdown">
+                <a href="/DLStack.html">제품소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/DLStack">Data Logger(Stack)</a></li>
+                    <li><a href="/DLWater">Data Logger(Water)</a></li>
+                    <li><a href="/DLFlare">Data Logger(Flare)</a></li>
+                    <li><a href="/FEPTotal">Data FEP(통합)</a></li>
+                    <li><a href="/Flowmeter">유속계(XFLOW-10)</a></li>
+                    <li><a href="/HMITMS">관제프로그램(NOBA_TMS)</a></li>
+                    <li><a href="/DigitalDDAD">디지털컨버터(DD/AD)</a></li>
+                </ul>
+            </div>
+          
+            <a href="/resources">자료실</a>
+            <a href="/SparePart">Spare Part</a>
+            <a href="/support">고객지원</a>
+        </nav>
+    </header>
+
+    <!-- 💡 본문 영역: 대표이사 인사말 내용 -->
+    <main class="main-content">
+        <div class="greeting-container">
+            <h1 class="greeting-title">대표이사 인사말</h1>
+            <div class="greeting-body">
+                <p>안녕하십니까,</p>
+                <p>(주)테크코리아 홈페이지를 방문해 주신 고객 여러분을 진심으로 환영합니다.</p>
+                <p>당사는 첨단 환경 관제 솔루션 및 TMS(굴뚝, 수질, Flare Stack) 시스템 분야의 축적된 기술력과 현장 경험을 바탕으로, 지속 가능한 환경 보호와 산업 효율화를 위해 끊임없이 정진하고 있습니다.</p>
+                <p>급변하는 환경 규제와 산업 환경 속에서도 끊임없는 연구 개발과 신뢰 중심의 고객 지원 서비스를 통해 고객 가치를 최우선으로 선도하는 기업이 될 것을 약속드립니다.</p>
+                <p>앞으로도 (주)테크코리아에 대한 따뜻한 관심과 성원을 부탁드립니다.</p>
+                <p>감사합니다.</p>
+            </div>
+            <div class="greeting-signature">
+                (주)테크코리아 임직원 일동
+            </div>
+        </div>
+    </main>
+
+    <!-- 푸터 영역 (메인페이지와 동일) -->
+    <footer>
+        <div class="footer-content">
+            <p class="company-info">(주)테크코리아 (TechKorea)</p>
+            <p>주소: 서울시 금천구 디지털로130,1114호 (남성프라자) </p>
+            <p>이메일: tech-korea@naver.com | 전화번호: 02-862-3251 | 팩스 : 02-865-3251</p>
+            <p style="margin-top: 10px; font-size: 12px; color: #6c757d;">Copyright © Techkorea Co., Ltd. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

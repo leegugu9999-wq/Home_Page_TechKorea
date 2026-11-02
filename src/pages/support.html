@@ -1,0 +1,708 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>고객지원 - (주)테크코리아</title>
+     <!-- 💡 파비콘 설정 -->
+    <link rel="icon" href="/Main_Icon_Last.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            height: auto;
+            background-color: #f8fafc;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+
+        /* 💡 상단 메뉴 고정 */
+        header {
+            width: 100%;
+            height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 100px;
+            padding: 0 40px 0 0;
+            background: rgb(255, 255, 255);
+            border-bottom: 1px solid rgb(128, 20, 228);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo img {
+            max-height: 80px;
+            width: auto;
+            display: block;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: rgb(31, 29, 29);
+            font-size: 17px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            color: hsl(271, 100%, 70%);
+        }
+
+        .main-content {
+            width: 100%;
+            padding: 60px 20px;
+            margin: 0;
+        }
+
+        .spare-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 60px 50px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .spare-header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid rgb(128, 20, 228);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .spare-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+            margin: 0;
+        }
+
+        .spare-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            padding: 10px 18px;
+            background-color: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            background-color: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgb(128, 20, 228), #76ad2c);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(128, 20, 228, 0.25);
+        }
+
+        /* 💡 탭 콘텐츠 영역 최소 높이 고정 */
+        .tab-content {
+            display: none;
+            min-height: 400px; 
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 💡 검색창 스타일 */
+        .search-box-wrapper {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 45px 14px 20px;
+            font-size: 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            background-color: #f8fafc;
+            outline: none;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: rgb(128, 20, 228);
+            background-color: #ffffff;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #64748b;
+            pointer-events: none;
+        }
+
+        /* 💡 공지사항 리스트 스타일 */
+        .support-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .support-item {
+            padding: 20px 15px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .support-item:last-child {
+            border-bottom: none;
+        }
+
+        .support-item-info strong {
+            font-size: 17px;
+            color: #0f172a;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .support-item-info p {
+            font-size: 15px;
+            color: #64748b;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .support-meta {
+            font-size: 14px;
+            color: #94a3b8;
+            white-space: nowrap;
+        }
+
+        /* 💡 FAQ 번호 박스 및 아코디언 스타일 */
+        .faq-card {
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            background: #ffffff;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .faq-card:hover {
+            border-color: rgb(128, 20, 228);
+        }
+
+        .faq-question-btn {
+            width: 100%;
+            padding: 18px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .faq-no-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 42px;
+            height: 32px;
+            padding: 0 8px;
+            background: linear-gradient(135deg, rgb(128, 20, 228), #76ad2c);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 6px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(128, 20, 228, 0.2);
+        }
+
+        .faq-question-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        .faq-question-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.4;
+        }
+
+        .faq-arrow {
+            font-size: 14px;
+            color: #64748b;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-card.active .faq-arrow {
+            transform: rotate(180deg);
+            color: rgb(128, 20, 228);
+        }
+
+        .faq-answer-box {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+            background-color: #f8fafc;
+            padding: 0 20px;
+        }
+
+        .faq-card.active .faq-answer-box {
+            max-height: 800px;
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .faq-answer-box p {
+            font-size: 15px;
+            color: #475569;
+            line-height: 1.6;
+            margin: 0;
+            word-break: keep-all;
+        }
+
+        /* 💡 현장 설치 사진 갤러리 그리드 스타일 */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .gallery-img-wrap {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            background-color: #f1f5f9;
+        }
+
+        .gallery-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .gallery-img-wrap img:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-desc {
+            padding: 15px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e293b;
+            text-align: center;
+        }
+
+        /* 💡 이미지 확대 팝업(모달) 스타일 */
+        #imageModal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        #modalImg {
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background-color: #ffffff;
+            padding: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        footer {
+            width: 100%;
+            min-height: 160px;
+            background-color: #212529;
+            color: #adb5bd;
+            padding: 30px 60px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .footer-content p {
+            margin: 0;
+            word-break: keep-all;
+        }
+
+        .footer-content .company-info {
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 85px;
+        }
+
+        .dropdown-menu {
+            display: none;            
+            position: absolute;
+            top: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 10px 0;
+            list-style: none;
+            z-index: 1000;
+        }
+
+        .dropdown-menu li a {
+            color: #333333;
+            padding: 10px 20px;
+            display: block;
+            font-size: 15px;
+            font-weight: 500;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #f8f9fa;
+            color: hsl(271, 100%, 60%);
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            header {
+                height: auto;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+
+            .logo { padding-left: 0; }
+            .logo img { max-height: 50px; }
+
+            nav {
+                width: 100%;
+                gap: 25px;
+                overflow-x: auto;
+                padding-bottom: 5px;
+            }
+
+            .spare-header-area {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .spare-tabs {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 5px;
+            }
+
+            .main-content { padding: 30px 15px; }
+            .spare-container { padding: 30px 20px; }
+            footer { padding: 25px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/">
+                <img src="/Main_Logo.png" alt="회사 로고">
+            </a>
+        </div>
+
+        <nav>
+            <div class="dropdown">
+                <a href="/greeting">회사소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="./greeting">대표이사 인사말</a></li>
+                    <li><a href="./history">회사연혁</a></li>
+                    <li><a href="./location">오시는길</a></li>
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <a href="/StackTms">사업소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="./StackTms">굴뚝TMS</a></li>
+                    <li><a href="./WaterTms">수질TMS</a></li>
+                    <li><a href="./adasdasd">크리티컬포인트</a></li>
+                    <li><a href="./FlareTms">Flare Stack</a></li>
+                    <li><a href="./HMITMS">HMI 모니터링 프로그램</a></li>
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <a href="./DLStack">제품소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="./DLStack">Data Logger(Stack)</a></li>
+                    <li><a href="./DLWater">Data Logger(Water)</a></li>
+                    <li><a href="./DLFlare">Data Logger(Flare)</a></li>
+                    <li><a href="./FEPTotal">Data FEP(통합)</a></li>
+                    <li><a href="./Flowmeter">유속계(XFLOW-10)</a></li>
+                    <li><a href="./HMITMS">관제프로그램(NOVA_TMS)</a></li>
+                    <li><a href="./DigitalDDAD">디지털컨버터(DD/AD)</a></li>
+                </ul>
+            </div>
+          
+            <a href="./resources">자료실</a>
+            <a href="./SparePart">Spare Part</a>
+            <a href="./support">고객지원</a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="spare-container">
+            
+            <div class="spare-header-area">
+                <h1 class="spare-title">고객지원</h1>
+                <div class="spare-tabs">
+                    <button class="tab-btn active" onclick="switchTab(event, 'tab-notice')">공지사항</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'tab-faq')">자주 묻는 질문 (FAQ)</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'tab-gallery')">현장 설치 갤러리</button>
+                </div>
+            </div>
+
+            <!-- 1. 공지사항 탭 -->
+            <div id="tab-notice" class="tab-content active">
+                <ul class="support-list">
+                    <li class="support-item">
+                        <div class="support-item-info">
+                            <strong>(주)테크코리아 홈페이지가 새롭게 오픈하였습니다.</strong>
+                            <p>당사 굴뚝 및 수질 TMS 시스템 관련 최신 기술 자료와 서비스를 편리하게 이용하실 수 있습니다.</p>
+                        </div>
+                        <span class="support-meta">2026-10-01</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 2. 자주 묻는 질문 (FAQ) 탭 -->
+            <div id="tab-faq" class="tab-content">
+                <!-- 💡 실시간 검색창 영역 -->
+                <div class="search-box-wrapper">
+                    <input type="text" id="faqSearchInput" class="search-input" onkeyup="filterFaq()" placeholder="궁금한 정보를 검색해보세요 (예: 통신, 에러, A/S)">
+                    <span class="search-icon">🔍</span>
+                </div>
+
+                <!-- FAQ 번호 박스 아코디언 리스트 영역 -->
+                <div id="faqList">
+                    
+                    <div class="faq-card faq-list-item">
+                        <button class="faq-question-btn" onclick="toggleFaq(this)">
+                            <div class="faq-question-content">
+                                <span class="faq-no-box">Q1</span>
+                                <span class="faq-question-title">굴뚝 TMS 통신 에러 발생 시 조치 방법은 어떻게 되나요?</span>
+                            </div>
+                            <span class="faq-arrow">▼</span>
+                        </button>
+                        <div class="faq-answer-box">
+                            <p>A. 모드버스(Modbus) RS485 배선 상태 및 보레이트(Baud Rate) 설정값을 먼저 확인해 주시기 바랍니다. 만약 지속적으로 통신 불량이 발생할 경우 당사 기술지원 센터로 연락주시면 원격으로 점검을 도와드립니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-card faq-list-item">
+                        <button class="faq-question-btn" onclick="toggleFaq(this)">
+                            <div class="faq-question-content">
+                                <span class="faq-no-box">Q2</span>
+                                <span class="faq-question-title">장비 구매 후 무상 A/S 보증 기간과 처리 절차는 어떻게 되나요?</span>
+                            </div>
+                            <span class="faq-arrow">▼</span>
+                        </button>
+                        <div class="faq-answer-box">
+                            <p>A. 당사에서 공급하는 모든 하드웨어 및 소프트웨어 제품의 기본 무상 보증 기간은 납품일로부터 1년입니다. 단, 사용자 과실이나 천재지변으로 인한 파손은 유상 수리로 진행됩니다.<br><br>
+                            [처리 절차]<br>
+                            1. 고객지원 센터 유선 또는 이메일 접수<br>
+                            2. 원격 점검 또는 택배/출장 입고<br>
+                            3. 원인 파악 및 수리 완료 후 발송</p>
+                        </div>
+                    </div>
+                        
+                                        <div class="faq-card faq-list-item">
+                        <button class="faq-question-btn" onclick="toggleFaq(this)">
+                            <div class="faq-question-content">
+                                <span class="faq-no-box">Q3</span>
+                                <span class="faq-question-title">Data Logger 통신 포트 설정은 어디서 변경하나요?</span>
+                            </div>
+                            <span class="faq-arrow">▼</span>
+                        </button>
+
+                        <div class="faq-answer-box">
+                            <p>A. HMI 시스템 환경설정 메뉴에서 [통신 설정] 탭으로 이동하신 후, 아래 그림과 같이 RS485 포트 번호와 Baud Rate(9600)를 맞추어 주시면 됩니다.</p>
+                            
+                            <!-- 💡 FAQ 답변 내 사진 추가 예시 -->
+                            <div style="margin-top: 15px;">
+                                <img src="/setting_sample.png" alt="통신 설정 방법" class="faq-img" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #e2e8f0; cursor: pointer;">
+                            </div>
+
+                            <div style="margin-top: 15px;">
+                                <img src="/setting_sample.png" alt="통신 설정 방법" class="faq-img" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #e2e8f0; cursor: pointer;">
+                            </div> 
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <!-- 3. 현장 설치 갤러리 탭 -->
+            <div id="tab-gallery" class="tab-content">
+                <div class="gallery-grid">
+                    <div class="gallery-card">
+                        <div class="gallery-img-wrap">
+                            <img src="/CPU7031.png" alt="현장 설치 사진 1">
+                        </div>
+                        <div class="gallery-desc">OO화학 굴뚝TMS Data Logger 구축 현장</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 푸터 영역 -->
+    <footer>
+        <div class="footer-content">
+            <p class="company-info">(주)테크코리아 (TechKorea)</p>
+            <p>주소: 서울시 금천구 디지털로130,1114호 (남성프라자)</p>
+            <p>이메일: tech-korea@naver.com | 전화번호: 02-862-3251 | 팩스 : 02-865-3251</p>
+            <p style="margin-top: 10px; font-size: 12px; color: #6c757d;">Copyright © Techkorea Co., Ltd. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 💡 이미지 확대 팝업(모달) 레이어 -->
+    <div id="imageModal" onclick="closeModal()">
+        <img id="modalImg" src="" alt="확대된 현장 사진">
+    </div>
+
+    <script>
+        // 탭 전환 기능
+        function switchTab(evt, tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        // 💡 FAQ 박스 토글(펼치기/접기) 기능
+        function toggleFaq(btn) {
+            const card = btn.parentElement;
+            card.classList.toggle('active');
+        }
+
+        // 💡 FAQ 실시간 검색 필터링 기능 (박스 형태 대응)
+        function filterFaq() {
+            const query = document.getElementById('faqSearchInput').value.toLowerCase();
+            const items = document.querySelectorAll('.faq-list-item');
+
+            items.forEach(item => {
+                const text = item.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // 💡 갤러리 이미지 클릭 시 모달창에 확대해서 띄우기
+        document.querySelectorAll('.gallery-img-wrap img').forEach(img => {
+            img.addEventListener('click', function() {
+                const modal = document.getElementById('imageModal');
+                const modalImg = document.getElementById('modalImg');
+                modal.style.display = 'flex';
+                modalImg.src = this.src;
+            });
+        });
+
+        // 💡 빈 공간이나 사진을 눌렀을 때 모달창 닫기
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>자료실 - (주)테크코리아</title>
+
+     <!-- 💡 파비콘 설정 -->
+    <link rel="icon" href="/Main_Icon_Last.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            height: auto;
+            background-color: #f8fafc;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+
+        header {
+            width: 100%;
+            height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 100px;
+            padding: 0 40px 0 0;
+            background: rgb(255, 255, 255);
+            border-bottom: 1px solid rgb(128, 20, 228);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); 
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            padding-left: 0px;
+        }
+
+        .logo img {
+            max-height: 80px;
+            width: auto;
+            display: block;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: rgb(31, 29, 29);
+            font-size: 17px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            color: hsl(271, 100%, 70%);
+        }
+
+        .main-content {
+            width: 100%;
+            padding: 60px 20px;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
+        .content-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 60px 50px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        /* 💡 자료실 상단 헤더 및 탭 스타일 */
+        .resources-header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid rgb(128, 20, 228);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .content-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+            margin: 0;
+        }
+
+        .resources-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            padding: 10px 18px;
+            background-color: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            background-color: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgb(128, 20, 228), #76ad2c);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(128, 20, 228, 0.25);
+        }
+
+        /* 💡 탭 콘텐츠 영역 최소 높이 고정 */
+        .tab-content {
+            display: none;
+            min-height: 400px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        .content-body {
+            font-size: 16px;
+            line-height: 1.9;
+            color: #495057;
+        }
+
+        .content-body p {
+            margin-bottom: 20px;
+            word-break: keep-all;
+        }
+
+        /* 💡 실시간 검색창 스타일 */
+        .search-box-wrapper {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 45px 14px 20px;
+            font-size: 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            background-color: #f8fafc;
+            outline: none;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: rgb(128, 20, 228);
+            background-color: #ffffff;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #64748b;
+            pointer-events: none;
+        }
+
+        /* 💡 자료실 리스트 스타일 */
+        .file-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .file-item {
+            padding: 15px 10px;    /*자료실 자료  위아래 간격*/
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .file-item:last-child {
+            border-bottom: none;
+        }
+
+        .file-info strong {
+            font-size: 18px;
+            color: #212529;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .file-meta {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .download-btn {
+            background: rgb(128, 20, 228);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 15px;
+            white-space: nowrap;
+            transition: background 0.2s ease;
+        }
+
+        .download-btn:hover {
+            background: hsl(271, 100%, 60%);
+        }
+
+        footer {
+            width: 100%;
+            min-height: 160px;
+            background-color: #212529;
+            color: #adb5bd;
+            padding: 30px 60px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .footer-content p {
+            margin: 0;
+            word-break: keep-all;
+        }
+
+        .footer-content .company-info {
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 85px;
+        }
+
+        .dropdown-menu {
+            display: none;            
+            position: absolute;
+            top: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 10px 0;
+            list-style: none;
+            z-index: 1000;
+        }
+
+        .dropdown-menu li a {
+            color: #333333;
+            padding: 10px 20px;
+            display: block;
+            font-size: 15px;
+            font-weight: 500;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #f8f9fa;
+            color: hsl(271, 100%, 60%);
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            header {
+                height: auto;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+
+            .logo {
+                padding-left: 0;
+            }
+
+            .logo img {
+                max-height: 50px;
+            }
+
+            nav {
+                width: 100%;
+                gap: 25px;
+                overflow-x: auto;
+                padding-bottom: 5px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .dropdown {
+                height: auto;
+            }
+
+            .dropdown-menu {
+                top: 100%;
+                left: 0;
+                transform: none;
+            }
+
+            .resources-header-area {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .resources-tabs {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 5px;
+            }
+
+            .main-content {
+                padding: 30px 15px;
+            }
+
+            .content-container {
+                padding: 30px 20px;
+            }
+
+            .content-title {
+                font-size: 24px;
+            }
+
+            .file-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .download-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            footer {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- 회사 로고 이미지 -->
+        <div class="logo">
+            <a href="/">
+                <img src="/Main_Logo.png" alt="회사 로고">
+            </a>
+        </div>
+
+        <!-- 네비게이션 메뉴 -->
+        <nav>
+            <!-- 회사소개 메뉴 -->
+            <div class="dropdown">
+                <a href="/greeting">회사소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/greeting">대표이사 인사말</a></li>
+                    <li><a href="history">회사연혁</a></li>
+                    <li><a href="/location">오시는길</a></li>
+                </ul>
+            </div>
+
+            <!-- 사업소개 메뉴 -->
+            <div class="dropdown">
+                <a href="/StackTms">사업소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/StackTms">굴뚝TMS</a></li>
+                    <li><a href="/WaterTms">수질TMS</a></li>
+                    <li><a href="/adasdasd">크리티컬포인트</a></li>
+                    <li><a href="/FlareTms">Flare Stack</a></li>
+                    <li><a href="/HMITMS">HMI 모니터링 프로그램</a></li>
+                </ul>
+            </div>
+
+            <!-- 제품소개 메뉴 -->
+            <div class="dropdown">
+                <a href="/DLStack.html">제품소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/DLStack.html">Data Logger(Stack)</a></li>
+                    <li><a href="/about/DLWater">Data Logger(Water)</a></li>
+                    <li><a href="/about/DLFlare">Data Logger(Flare)</a></li>
+                    <li><a href="/about/FEPTotal">Data FEP(통합)</a></li>
+                    <li><a href="/about/Flowmeter">유속계(XFLOW-10)</a></li>
+                    <li><a href="/about/HMITMS">관제프로그램(NOBA_TMS)</a></li>
+                    <li><a href="/about/DigitalDDAD">디지털컨버터(DD/AD)</a></li>
+                </ul>
+            </div>
+          
+            <a href="/resources">자료실</a>
+            <a href="/SparePart">Spare Part</a>
+            <a href="/support">고객지원</a>
+        </nav>
+    </header>
+
+    <!-- 💡 본문 영역: 자료실 -->
+    <main class="main-content">
+        <div class="content-container">
+            
+            <div class="resources-header-area">
+                <h1 class="content-title">자료실</h1>
+                <!-- 💡 장비관련 자료 / 인증서 및 성적서 탭 버튼 -->
+                <div class="resources-tabs">
+                    <button class="tab-btn active" onclick="switchTab(event, 'tab-equipment')">장비관련 자료</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'tab-certificate')">인증서 및 성적서</button>
+                </div>
+            </div>
+
+            <!-- 1. 장비관련 자료 탭 -->
+            <div id="tab-equipment" class="tab-content active">
+                <div class="content-body">
+                    <p>당사의 카탈로그, 매뉴얼 및 관련 기술 자료를 다운로드하실 수 있습니다.</p>
+
+                    <!-- 💡 장비관련 자료 전용 실시간 검색창 -->
+                    <div class="search-box-wrapper">
+                        <input type="text" id="resourceSearchInput" class="search-input" onkeyup="filterResources()" placeholder="자료명을 검색해보세요 (예: 4000D, 유속계, 디지털컨버터)">
+                        <span class="search-icon">🔍</span>
+                    </div>
+
+                    <!-- 파일 목록 리스트 -->
+                    <ul id="resourceList" class="file-list">
+                        <li class="file-item resource-search-item">
+                            <div class="file-info">
+                                <strong>[카탈로그] 굴뚝 TMS / 4000D+ 6000D+</strong>
+                                <span class="file-meta">PDF 파일 (1.83MB) | 업데이트: 2025-04-30 | 📥 다운로드: <span id="count-4000d" style="font-weight: bold; color: rgb(128, 20, 228);">0</span>회</span>
+                            </div>
+                            <!-- download 속성으로 버벅임 없이 즉시 다운로드 -->
+                            <a href="/downloads/catalog_4000D.pdf" download class="download-btn" onclick="increaseCount('4000d')">다운로드</a>
+                        </li>
+
+                        <li class="file-item resource-search-item">
+                            <div class="file-info">
+                                <strong>[카탈로그] 신형 유속계 (XFLOW-10)</strong>
+                                <span class="file-meta">PDF 파일 (532KB) | 업데이트: 2021-06-14 | 📥 다운로드: <span id="count-xflow10" style="font-weight: bold; color: rgb(128, 20, 228);">0</span>회</span>
+                            </div>
+                            <a href="/downloads/flowmeter_xflow10.pdf" download class="download-btn" onclick="increaseCount('xflow10')">다운로드</a>
+                        </li>
+
+                        <li class="file-item resource-search-item">
+                            <div class="file-info">
+                                <strong>[카탈로그] 디지털컨버터 (DD/AD)</strong>
+                                <span class="file-meta">PDF 파일 (476KB) | 업데이트: 2020-03-12 | 📥 다운로드: <span id="count-digital" style="font-weight: bold; color: rgb(128, 20, 228);">0</span>회</span>
+                            </div>
+                            <a href="/downloads/digital_converter.pdf" download class="download-btn" onclick="increaseCount('digital')">다운로드</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 2. 인증서 및 성적서 탭 -->
+            <div id="tab-certificate" class="tab-content">
+                <div class="content-body">
+                    <p>장비 형식승인서 및 품질경영 인증서 관련 문서들을 다운로드하실 수 있습니다.</p>
+
+                    <!-- 인증서 파일 목록 리스트 (샘플 1개 포함) -->
+                    <ul class="file-list">
+                        <li class="file-item">
+                            <div class="file-info">
+                                <strong>[인증서] ISO 9001 품질경영시스템 인증서</strong>
+                                <span class="file-meta">PDF 파일 (1.20MB) | 업데이트: 2025-01-10 | 📥 다운로드: <span id="count-iso" style="font-weight: bold; color: rgb(128, 20, 228);">0</span>회</span>
+                            </div>
+                            <a href="/downloads/iso_certificate.pdf" download class="download-btn" onclick="increaseCount('iso')">다운로드</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 푸터 영역 -->
+    <footer>
+        <div class="footer-content">
+            <p class="company-info">(주)테크코리아 (TechKorea)</p>
+            <p>주소: 서울시 금천구 디지털로130,1114호 (남성프라자) </p>
+            <p>이메일: tech-korea@naver.com | 전화번호: 02-862-3251 | 팩스 : 02-865-3251</p>
+            <p style="margin-top: 10px; font-size: 12px; color: #6c757d;">Copyright © Techkorea Co., Ltd. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 💡 로컬 기반 안정적인 다운로드 카운트 연동 및 탭/검색 스크립트 -->
+    <script>
+        // 💡 탭 전환 기능
+        function switchTab(evt, tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        // 💡 장비관련 자료 실시간 검색 필터링 기능
+        function filterResources() {
+            const query = document.getElementById('resourceSearchInput').value.toLowerCase();
+            const items = document.querySelectorAll('.resource-search-item');
+
+            items.forEach(item => {
+                const text = item.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // 페이지가 열릴 때 브라우저에 저장된 카운트 불러오기
+        window.addEventListener('DOMContentLoaded', () => {
+            loadCount('4000d');
+            loadCount('xflow10');
+            loadCount('digital');
+            loadCount('iso'); // 인증서 카운트 로드 추가
+        });
+
+        function loadCount(fileKey) {
+            let count = localStorage.getItem('download_count_' + fileKey);
+            if (!count) {
+                count = 0; // 초기값이 없으면 0
+            }
+            document.getElementById('count-' + fileKey).innerText = count;
+        }
+
+        // 다운로드 버튼을 누를 때 숫자가 즉시 1씩 올라가는 함수
+        function increaseCount(fileKey) {
+            let count = localStorage.getItem('download_count_' + fileKey);
+            if (!count) {
+                count = 0;
+            }
+            count = parseInt(count) + 1;
+            localStorage.setItem('download_count_' + fileKey, count);
+            document.getElementById('count-' + fileKey).innerText = count;
+        }
+    </script>
+</body>
+</html>

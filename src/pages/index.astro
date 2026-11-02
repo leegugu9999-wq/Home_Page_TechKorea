@@ -1,0 +1,360 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>(주)테크코리아</title>
+    
+    <!-- 💡 파비콘 설정 (아이콘 변경을 원하실 때 이 경로의 파일명을 교체해 주세요) -->
+    <link rel="icon" href="/Main_Icon_Last.ico" type="image/x-icon">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;                            /*npm.cmd run dev*/  /*터미널에서 무조건 실행해야함*/
+        }
+
+        /* 💡 화면 스크롤바 방지 및 전체 화면 높이 고정 (푸터 공간을 위해 해제) */
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* 💡 메인 화면 스크롤 고정 */
+        }
+
+        header {
+            width: 100%;
+            height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* 왼쪽부터 순서대로 배치qqq1111111 */
+            gap: 100px; /* 로고와 네비게이션 간격 100px 고정 */
+            padding: 0 40px 0 0;  /* 로고을 맨 왼쪽이 붙힌다 */
+            background: rgb(255, 255, 255) ;
+            border-bottom: 1px solid rgb(19, 18, 18);  /* 상단 메뉴 밑에 줄색상 변경및99 두깨 */
+            position: relative;
+            z-index: 100;
+        }
+
+        /* 로고 영역 및 이미지 크기 제어 */
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            padding-left: 0px;  /* 로고을 왼쪽에서 띄울려면 값이 넣는다*/
+        }
+
+        .logo img {
+            max-height: 80px;/* 로고 크기 조정 */
+            width: auto;
+            display: block;
+        }
+
+        /* 네비게이션 메뉴 */
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 80px; /* 메뉴 항목 간 간격 */
+        }
+
+        nav a {
+            text-decoration: none;
+            color: rgb(31, 29, 29); /* 어두운 배경색에 맞춘 밝은 글씨 색상 */
+            font-size: 17px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+        }
+
+        /* 메뉴 호버 효과 */
+        nav a:hover {
+            color: hsl(271, 100%, 70%); /* 호버 시 가독성 좋은 포인트 컬러 */
+        }
+
+        /* 메인 영역 여백 제거 및 남은 화면 높이 전체 사용 */
+        .main-content {
+            width: 100%;
+            height: calc(100vh - 85px - 160px); /* 전체 화면에서 헤더와 푸터 높이를 뺀 만큼 배너 영역 지정 */
+            padding: 0;
+            margin: 0;
+            position: relative; /* 💡 오버레이 텍스트 배치를 위해 추가됨 */
+        }
+
+        .main-image-box {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 이미지가 잘리지 않고 가득 차도록 비율 조절 */
+        .main-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 화면 상자에 맞춰 이미지를 가득 채움 */
+            display: block;
+        }
+
+        /* 💡 추가: 배경 이미지 위에 5줄 문구를 중앙 정렬하고 아래서 위로 움직이는 애니메이션 영역 */
+        .construction-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+            width: 90%;
+            max-width: 900px;
+            pointer-events: none;
+        }
+
+        .construction-overlay p {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a2530;
+            line-height: 1.8;
+            margin-bottom: 12px;
+            text-shadow: 0px 2px 8px rgba(255, 255, 255, 0.9);
+            
+            /* 애니메이션 초기 상태 */
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards; 
+        }
+
+        /* 💡 5줄 문구별 순차적 등장 지연 시간 설정 */
+        .construction-overlay p:nth-child(1) { animation-delay: 0.2s; font-size: 26px; color: #0056b3; }  /* 글자 위로 올라가는 속도*/
+        .construction-overlay p:nth-child(2) { animation-delay: 1.5s; }
+        .construction-overlay p:nth-child(3) { animation-delay: 3.0s; }
+        .construction-overlay p:nth-child(4) { animation-delay: 4.5s; }
+        .construction-overlay p:nth-child(5) { animation-delay: 6.0s; }
+        .construction-overlay p:nth-child(6) { animation-delay: 7.5s; }
+
+        /* 💡 아래서 위로 올라오는 키프레임 애니메이션 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 💡 화면 맨 하단에 추가된 회사 주소 및 이메일 푸터 영역 스타일 */
+        footer {
+            width: 100%;
+            height: 160px; /* 푸터 고정 높이 */
+            background-color: #212529; /* 참고 디자인과 같은 어두운 차콜 톤 */
+            color: #adb5bd;
+            padding: 30px 60px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .footer-content p {
+            margin: 0;
+            word-break: keep-all;
+        }
+
+       .footer-content .company-info {
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 20px; /* 💡 회사명 글자 크기를 더 크게 설정 */
+        }
+
+        /* 1. 드롭다운 전체 상자 영역 (마우스 인식 기준점) */
+        .dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 85px;
+        }
+
+        /* 2. 평소에는 서브메뉴를 화면에서 숨김 (이 코드가 핵심입니다!) */
+        .dropdown-menu {
+            display: none;            
+            position: absolute;
+            top: 85px;                /* 헤더 바로 아래에 위치 */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 10px 0;
+            list-style: none;
+            z-index: 1000; /* 드롭다운 메뉴가 가려지지 않도록 최상단으로 설정 */
+        }
+
+        .dropdown-menu li a {
+            color: #333333;
+            padding: 10px 20px;
+            display: block;
+            font-size: 15px;
+            font-weight: 500;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: hsl(209, 30%, 87%);
+            color: hsla(240, 2%, 11%, 0.32);
+        }
+
+        /* 3. '회사소개'에 마우스를 올렸을 때(.hover) 숨겨진 메뉴(.dropdown-menu)를 화면에 표시(block)함 */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* 📱 모바일 및 태블릿 대응 미디어 쿼리 */
+        @media (max-width: 1024px) {
+            header {
+                height: auto;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+
+            .logo {
+                padding-left: 0;
+            }
+
+            .logo img {
+                max-height: 50px;
+            }
+
+            nav {
+                width: 100%;
+                gap: 25px;
+                overflow-x: auto;
+                padding-bottom: 5px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .dropdown {
+                height: auto;
+            }
+
+            .dropdown-menu {
+                top: 100%;
+                left: 0;
+                transform: none;
+            }
+
+            /* 모바일 화면에서도 높이 고정을 유지하며 이미지 박스가 남은 공간을 채우도록 설정 */
+            .main-content {
+                height: calc(100vh - 120px - 140px);
+            }
+
+            .main-image-box img {
+                height: 100%;
+            }
+
+            .construction-overlay p {
+                font-size: 15px;
+            }
+
+            .construction-overlay p:nth-child(1) {
+                font-size: 18px;
+            }
+
+            footer {
+                height: 140px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- 회사 로고 이미지 -->
+        <div class="logo">
+            <a href="/">
+                <img src="/Main_Logo.png" alt="회사 로고">
+            </a>
+        </div>
+
+        <!-- 네비게이션 메뉴 -->
+        <nav>
+         <!-- 💡 마우스 호버 방식의 드롭다운이 적용된 회사소개 메뉴 -->
+            <div class="dropdown">
+                <a href="/greeting">회사소개</a>
+                <ul class="dropdown-menu">
+                    <!-- 💡 파일 경로 확장자(.html) 추가 및 연결 확인 -->
+                    <li><a href="./greeting">대표이사 인사말</a></li>
+                    <li><a href="./history">회사연혁</a></li>
+                    <li><a href="./location">오시는길</a></li>
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <a href="/StackTms">사업소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="./StackTms">굴뚝TMS</a></li>
+                    <li><a href="./WaterTms">수질TMS</a></li>
+                    <li><a href="./adasdasd">크리티컬포인트</a></li>
+                    <li><a href="./FlareTms">Flare Stack</a></li>
+                    <li><a href="./HMITMS">HMI 모니터링 프로그램</a></li>
+                </ul>
+            </div>
+
+            
+            <div class="dropdown">
+                <a href="./DLStack">제품소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="./DLStack">Data Logger(Stack)</a></li>
+                    <li><a href="./DLWater">Data Logger(Water)</a></li>
+                    <li><a href="./DLFlare">Data Logger(Flare)</a></li>
+                    <li><a href="./FEPTotal">Data FEP(통합)</a></li>
+                    <li><a href="./Flowmeter">유속계(XFLOW-10)</a></li>
+                    <li><a href="./HMITMS">관제프로그램(NOBA_TMS)</a></li>
+                    <li><a href="./DigitalDDAD">디지털컨버터(DD/AD)</a></li>
+                </ul>
+            </div>
+
+           
+          
+            <a href="./resources">자료실</a>
+           <a href="./SparePart">Spare Part</a> 
+            <a href="./support">고객지원</a>
+        </nav>
+    </header>
+<!-- 💡 헤더 아래에 추가된 본문 영역 (안녕하세요 + 이미지) -->
+    <main class="main-content">
+        
+        
+        <div class="main-image-box">
+            <img src="/Main_display_002.png" alt="메인 배너 이미지">
+        </div>
+
+        <!-- 💡 추가: 중앙에 배치되어 아래서 위로 올라오는 5줄 공사중 안내 문구 -->
+        <div class="construction-overlay">
+            <p>현재 홈페이지 리뉴얼 공사 진행 중입니다.</p>
+            <p>고객님께 더 쾌적하고 안정적인 서비스를 제공하기 위해 시스템 점검을 진행하고 있습니다.</p>
+            <p>모든 작업을 차질 없이 진행하여 최대한 빠른 시일 내에 마무리지을 수 있도록 노력하겠습니다.</p>
+            <p>이용에 불편을 드려 진심으로 사과드리며, 더욱 새로워진 모습으로 찾아뵙겠습니다.</p>
+            <p>일부 기능은 정상적으로 이용 가능하오니 참고해 주시기 바랍니다.</p>
+            <p>감사합니다. - (주)테크코리아 임직원 일동 -</p>
+        </div>
+    </main>
+<!-- 💡 화면 맨 하단에 추가된 회사 주소 및 이메일 푸터 영역 -->
+    <footer>
+        <div class="footer-content">
+            <p class="company-info">(주)테크코리아 (TechKorea)</p>
+            <p>주소: 서울시 금천구 디지털로130,1114호 (남성프라자) </p>
+            <p>이메일: tech-korea@naver.com | 전화번호: 02-862-3251 | 팩스 :  02-865-3251</p>
+            <p style="margin-top: 10px; font-size: 12px; color: #6c757d;">Copyright © Techkorea Co., Ltd. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

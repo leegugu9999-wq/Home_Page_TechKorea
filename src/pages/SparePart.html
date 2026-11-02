@@ -1,0 +1,562 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spare Part - (주)테크코리아</title>
+     <!-- 💡 파비콘 설정 (아이콘 변경을 원하실 때 이 경로의 파일명을 교체해 주세요) -->
+    <link rel="icon" href="/Main_Icon_Last.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            height: auto;
+            background-color: #f8fafc;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+
+        /* 💡 상단 메뉴 고정 */
+        header {
+            width: 100%;
+            height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 100px;
+            padding: 0 40px 0 0;
+            background: rgb(255, 255, 255);
+            border-bottom: 1px solid rgb(128, 20, 228);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo img {
+            max-height: 80px;
+            width: auto;
+            display: block;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: rgb(31, 29, 29);
+            font-size: 17px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            color: hsl(271, 100%, 70%);
+        }
+
+        .main-content {
+            width: 100%;
+            padding: 60px 20px;
+            margin: 0;
+        }
+
+        .spare-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 60px 50px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .spare-header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid rgb(128, 20, 228);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .spare-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+            margin: 0;
+        }
+
+        .spare-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            padding: 10px 18px;
+            background-color: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            background-color: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgb(128, 20, 228), #76ad2c);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(128, 20, 228, 0.25);
+        }
+
+        /* 💡 탭 콘텐츠 영역 최소 높이 고정 (위치 흔들림 방지) */
+        .tab-content {
+            display: none;
+            min-height: 400px; 
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+        }
+
+        .spare-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            background-color: #ffffff;
+            table-layout: fixed; /* 💡 컬럼 너비 고정의 핵심 속성 */
+        }
+
+        .spare-table th {
+            background-color: #475569;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 16px 12px;
+            border-bottom: 2px solid #334155;
+            white-space: nowrap;
+        }
+
+        .spare-table td {
+            padding: 20px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 15px;
+            color: #334155;
+            vertical-align: middle;
+            word-break: keep-all;
+        }
+
+        .spare-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .spare-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* 각 열의 너비(Width)를 고정하여 탭을 바꿔도 헤더 위치가 유지되도록 설정 */
+        .col-no { width: 80px; font-weight: 700; font-size: 18px; color: #0f172a; }
+        .col-name { width: 25%; font-weight: 600; color: #1e293b; line-height: 1.5; }
+        .col-code { width: 25%; font-family: monospace; font-weight: 600; color: #7c3aed; }
+        .col-desc { width: 25%; color: #64748b; line-height: 1.5; }
+        .col-img { width: 20%; }
+        .col-img img { 
+            max-width: 130px; 
+            height: auto; 
+            display: block; 
+            margin: 0 auto; 
+            border-radius: 6px; 
+            border: 1px solid #f1f5f9; 
+            cursor: pointer; /* 💡 클릭 가능 표시 (마우스 커서 손가락 모양) */
+            transition: opacity 0.2s;
+        }
+        .col-img img:hover {
+            opacity: 0.8;
+        }
+
+        /* 💡 이미지 확대 팝업(모달) 스타일 추가 */
+        #imageModal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* 배경 어둡게 */
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        #modalImg {                     /* 사진을 클릭하면 잠시 크게 나오게 하는 기능 */
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background-color: #ffffff;
+            padding: 10px;
+            transform: scale(0.7); /* 💡 기존 크기 대비 약 2배 확대 */
+            transition: transform 0.2s ease;
+        }
+
+        footer {
+            width: 100%;
+            min-height: 160px;
+            background-color: #212529;
+            color: #adb5bd;
+            padding: 30px 60px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .footer-content p {
+            margin: 0;
+            word-break: keep-all;
+        }
+
+        .footer-content .company-info {
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 85px;
+        }
+
+        .dropdown-menu {
+            display: none;            
+            position: absolute;
+            top: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 10px 0;
+            list-style: none;
+            z-index: 1000;
+        }
+
+        .dropdown-menu li a {
+            color: #333333;
+            padding: 10px 20px;
+            display: block;
+            font-size: 15px;
+            font-weight: 500;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #f8f9fa;
+            color: hsl(271, 100%, 60%);
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            header {
+                height: auto;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+
+            .logo { padding-left: 0; }
+            .logo img { max-height: 50px; }
+
+            nav {
+                width: 100%;
+                gap: 25px;
+                overflow-x: auto;
+                padding-bottom: 5px;
+            }
+
+            .spare-header-area {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .spare-tabs {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 5px;
+            }
+
+            .main-content { padding: 30px 15px; }
+            .spare-container { padding: 30px 20px; }
+            .spare-table th, .spare-table td { padding: 12px 8px; font-size: 14px; }
+            .col-img img { max-width: 90px; }
+            footer { padding: 25px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/">
+                <img src="/Main_Logo.png" alt="회사 로고">
+            </a>
+        </div>
+
+        <nav>
+            <div class="dropdown">
+                <a href="/greeting">회사소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="./greeting">대표이사 인사말</a></li>
+                    <li><a href="./history">회사연혁</a></li>
+                    <li><a href="./location">오시는길</a></li>
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <a href="/StackTms">사업소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="./StackTms">굴뚝TMS</a></li>
+                    <li><a href="./WaterTms">수질TMS</a></li>
+                    <li><a href="./adasdasd">크리티컬포인트</a></li>
+                    <li><a href="./FlareTms">Flare Stack</a></li>
+                    <li><a href="./HMITMS">HMI 모니터링 프로그램</a></li>
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <a href="/DLStack">제품소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="./DLStack">Data Logger(Stack)</a></li>
+                    <li><a href="./DLWater">Data Logger(Water)</a></li>
+                    <li><a href="./DLFlare">Data Logger(Flare)</a></li>
+                    <li><a href="./FEPTotal">Data FEP(통합)</a></li>
+                    <li><a href="./Flowmeter">유속계(XFLOW-10)</a></li>
+                    <li><a href="./HMITMS">관제프로그램(NOVA_TMS)</a></li>
+                    <li><a href="./DigitalDDAD">디지털컨버터(DD/AD)</a></li>
+                </ul>
+            </div>
+          
+            <a href="./resources">자료실</a>
+            <a href="./SparePart">Spare Part</a>
+            <a href="./support">고객지원</a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="spare-container">
+            
+            <div class="spare-header-area">
+                <h1 class="spare-title">Spare Part</h1>
+                <div class="spare-tabs">
+                    <button class="tab-btn active" onclick="switchTab(event, 'tab-dl')">Data Logger/FEP</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'tab-flow')">유속계</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'tab-ddad')">DD/AD</button>
+                </div>
+            </div>
+
+            <!-- 1. Data Logger/FEP 탭 -->
+            <div id="tab-dl" class="tab-content active">
+                <div class="table-wrapper">
+                    <table class="spare-table">
+                        <colgroup>
+                            <col style="width: 80px;">
+                            <col style="width: 25%;">
+                            <col style="width: 25%;">
+                            <col style="width: 30%;">
+                            <col style="width: 20%;">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>NO</th>
+                                <th>제품명</th>
+                                <th>CODE</th>
+                                <th>설명</th>
+                                <th>사진</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-no">1</td>
+                                <td class="col-name">CPU BOARD<br>STACK. WATER(통합)</td>
+                                <td class="col-code">CPU BOARD + SET<br>PCA-7031</td>
+                                <td class="col-desc">KTE+ / UT+ Series<br>전용 CPU Board<br>DOS TYPE</td>
+                                <td class="col-img"><img src="/CPU7031.png" alt="111 부품 사진"></td>
+                            </tr>
+                            <tr>
+                                <td class="col-no">2</td>
+                                <td class="col-name">CPU BOARD<br>STACK. WATER(통합)</td>
+                                <td class="col-code">CPU BOARD + SET<br>PCA-7032</td>
+                                <td class="col-desc">KTE+ / UT+ Series<br>전용 CPU Board<br>WINDOWS 전용</td>
+                                <td class="col-img"><img src="/222.png" alt="222 부품 사진"></td>
+                            </tr>
+                            <tr>
+                                <td class="col-no">3</td>
+                                <td class="col-name">CPU BOARD<br>STACK 용</td>
+                                <td class="col-code">CPU BOARD<br>PCA-6742E</td>
+                                <td class="col-desc">KTE / UT Series<br>전용 CPU Board<br>DOS / WINDOWS 겸용</td>
+                                <td class="col-img"><img src="/333.png" alt="333 부품 사진"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 2. 유속계 탭 -->
+            <div id="tab-flow" class="tab-content">
+                <div class="table-wrapper">
+                    <table class="spare-table">
+                        <colgroup>
+                            <col style="width: 80px;">
+                            <col style="width: 25%;">
+                            <col style="width: 25%;">
+                            <col style="width: 30%;">
+                            <col style="width: 20%;">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>NO</th>
+                                <th>제품명</th>
+                                <th>CODE</th>
+                                <th>설명</th>
+                                <th>사진</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-no">1</td>
+                                <td class="col-name">유속계 센서 모듈<br>XFLOW-10</td>
+                                <td class="col-code">XFLOW-SEN-01</td>
+                                <td class="col-desc">XFLOW-10 전용 센서 보드<br>고정밀 측정용</td>
+                                <td class="col-img"><img src="/444.png" alt="유속계1 부품 사진"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. DD/AD 탭 -->
+            <div id="tab-ddad" class="tab-content">
+                <div class="table-wrapper">
+                    <table class="spare-table">
+                        <colgroup>
+                            <col style="width: 80px;">
+                            <col style="width: 25%;">
+                            <col style="width: 25%;">
+                            <col style="width: 30%;">
+                            <col style="width: 20%;">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>NO</th>
+                                <th>제품명</th>
+                                <th>CODE</th>
+                                <th>설명</th>
+                                <th>사진</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-no">1</td>
+                                <td class="col-name">디지털컨버터 보드<br>KTE-200D</td>
+                                <td class="col-code">KTE-200D-CONV</td>
+                                <td class="col-desc">New DD Converter<br>Special Version</td>
+                                <td class="col-img"><img src="/111.png" alt="DDAD 부품 사진"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 푸터 영역 -->
+    <footer>
+        <div class="footer-content">
+            <p class="company-info">(주)테크코리아 (TechKorea)</p>
+            <p>주소: 서울시 금천구 디지털로130,1114호 (남성프라자)</p>
+            <p>이메일: tech-korea@naver.com | 전화번호: 02-862-3251 | 팩스 : 02-865-3251</p>
+            <p style="margin-top: 10px; font-size: 12px; color: #6c757d;">Copyright © Techkorea Co., Ltd. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 💡 이미지가 크게 뜰 모달 팝업 레이어 추가 -->
+    <div id="imageModal" onclick="closeModal()">
+        <img id="modalImg" src="" alt="확대된 부품 사진">
+    </div>
+
+    <script>
+        // 탭 전환 기능
+        function switchTab(evt, tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        // 💡 이미지 클릭 시 모달창에 2배 확대하여 띄우기
+        document.querySelectorAll('.col-img img').forEach(img => {
+            img.addEventListener('click', function() {
+                const modal = document.getElementById('imageModal');
+                const modalImg = document.getElementById('modalImg');
+                modal.style.display = 'flex';
+                modalImg.src = this.src;
+            });
+        });
+
+        // 💡 빈 공간이나 사진을 눌렀을 때 모달창 닫기
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

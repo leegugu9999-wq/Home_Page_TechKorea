@@ -1,0 +1,534 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회사연혁 - (주)테크코리아</title>
+     <!-- 💡 파비콘 설정 (아이콘 변경을 원하실 때 이 경로의 파일명을 교체해 주세요) -->
+    <link rel="icon" href="/Main_Icon_Last.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            height: auto;
+            background-color: #f8fafc;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+
+       header {
+    width: 100%;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 100px;
+    padding: 0 40px 0 0;
+    background: rgb(255, 255, 255);
+    border-bottom: 1px solid rgb(128, 20, 228);
+    
+    /* 💡 스크롤 이동 시 최상단 고정 설정 */
+    position: sticky; /* position: relative; 대신 sticky로 변경 */
+    top: 0;          /* 화면 맨 위에 붙도록 설정 */
+    z-index: 1000;   /* 본문 콘텐츠 위로 헤더가 올라오도록 z-index 수치 상향 */
+    
+    /* (선택 사항) 스크롤 시 본문 내용이 헤더 밑으로 비치는 것을 방지하기 위한 그림자 효과 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); 
+}
+
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            padding-left: 0px; 
+        }
+
+        .logo img {
+            max-height: 80px;
+            width: auto;
+            display: block;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: rgb(31, 29, 29);
+            font-size: 17px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            color: hsl(271, 100%, 70%);
+        }
+
+        .main-content {
+            width: 100%;
+            padding: 80px 20px;
+            margin: 0;
+        }
+
+        /* 💡 프리미엄 컨테이너 스타일 */
+        .greeting-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 70px 60px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .greeting-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 60px;
+            text-align: center;
+            letter-spacing: -1px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .greeting-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, rgb(128, 20, 228), #76ad2c);
+            border-radius: 2px;
+        }
+
+        /* 💡 하이엔드 타임라인 구조 */
+        .history-list {
+            position: relative;
+            padding-left: 37px;
+        }
+
+        /* 중앙 연결 그라데이션 선 */
+        .history-list::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 32px;
+            bottom: 32px;
+            width: 3px;
+            background: linear-gradient(to bottom, #76ad2c, rgb(128, 20, 228), #e2e8f0);
+            border-radius: 1.5px;
+        }
+
+        .history-item {
+            position: relative;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            padding: 20px 25px;
+            border-radius: 14px;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .history-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(118, 173, 44, 0.12);
+            border-color: #bbf7d0;
+        }
+
+        /* 타임라인 노드 아이콘 */
+        .history-item::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            width: 15px;
+            height: 15px;
+            background-color: #ffffff;
+            border: 4px solid #76ad2c;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(118, 173, 44, 0.2);
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .history-item:hover::before {
+            background-color: #76ad2c;
+            border-color: #ffffff;
+            box-shadow: 0 0 0 6px rgba(118, 173, 44, 0.3);
+        }
+
+        /* 세련된 뱃지 스타일 */
+        .history-year {
+            background: linear-gradient(135deg, #76ad2c 0%, #5c8722 100%);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(118, 173, 44, 0.25);
+            min-width: 130px;
+            text-align: center;
+            flex-shrink: 0;
+            letter-spacing: 0.3px;
+            margin-right: 25px;
+        }
+
+        .history-desc {
+            font-size: 16px;
+            color: #334155;
+            line-height: 1.6;
+            word-break: keep-all;
+            font-weight: 500;
+            flex-grow: 1;
+        }
+
+        .greeting-signature {
+            margin-top: 60px;
+            text-align: right;
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            border-top: 2px solid #f1f5f9;
+            padding-top: 30px;
+            letter-spacing: -0.5px;
+        }
+
+        footer {
+            width: 100%;
+            min-height: 160px;
+            background-color: #212529;
+            color: #adb5bd;
+            padding: 30px 60px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .footer-content p {
+            margin: 0;
+            word-break: keep-all;
+        }
+
+        .footer-content .company-info {
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 85px;
+        }
+
+        .dropdown-menu {
+            display: none;            
+            position: absolute;
+            top: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 10px 0;
+            list-style: none;
+            z-index: 1000;
+        }
+
+        .dropdown-menu li a {
+            color: #333333;
+            padding: 10px 20px;
+            display: block;
+            font-size: 15px;
+            font-weight: 500;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #f8f9fa;
+            color: hsl(271, 100%, 60%);
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* 📱 모바일 반응형 최적화 */
+        @media (max-width: 1024px) {
+            header {
+                height: auto;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+
+            .logo {
+                padding-left: 0;
+            }
+
+            .logo img {
+                max-height: 50px;
+            }
+
+            nav {
+                width: 100%;
+                gap: 25px;
+                overflow-x: auto;
+                padding-bottom: 5px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .dropdown {
+                height: auto;
+            }
+
+            .dropdown-menu {
+                top: 100%;
+                left: 0;
+                transform: none;
+            }
+
+            .main-content {
+                padding: 40px 15px;
+            }
+
+            .greeting-container {
+                padding: 40px 20px;
+                border-radius: 16px;
+            }
+
+            .greeting-title {
+                font-size: 28px;
+                margin-bottom: 40px;
+            }
+
+            .history-list {
+                padding-left: 25px;
+            }
+
+            .history-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+                padding: 18px 20px;
+            }
+
+            .history-item::before {
+                left: -28px;
+            }
+
+            .history-year {
+                min-width: auto;
+                padding: 6px 14px;
+                font-size: 13px;
+                margin-right: 0;
+            }
+
+            .history-desc {
+                font-size: 15px;
+            }
+
+            footer {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- 회사 로고 이미지 -->
+        <div class="logo">
+            <a href="/">
+                <img src="/Main_Logo.png" alt="회사 로고">
+            </a>
+        </div>
+
+        <!-- 네비게이션 메뉴 -->
+        <nav>
+            <div class="dropdown">
+                <a href="/greeting">회사소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/greeting">대표이사 인사말</a></li>
+                    <li><a href="/history">회사연혁</a></li>
+                    <li><a href="/location">오시는길</a></li>
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <a href="/StackTms">사업소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/StackTms">굴뚝TMS</a></li>
+                    <li><a href="/WaterTms">수질TMS</a></li>
+                    <li><a href="/adasdasd">크리티컬포인트</a></li>
+                    <li><a href="/FlareTms">Flare Stack</a></li>
+                    <li><a href="/HMITMS">HMI 모니터링 프로그램</a></li>
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <a href="/DLStack">제품소개</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/DLStack">Data Logger(Stack)</a></li>
+                    <li><a href="/DLWater">Data Logger(Water)</a></li>
+                    <li><a href="/DLFlare">Data Logger(Flare)</a></li>
+                    <li><a href="/FEPTotal">Data FEP(통합)</a></li>
+                    <li><a href="/Flowmeter">유속계(XFLOW-10)</a></li>
+                    <li><a href="/HMITMS">관제프로그램(NOVA_TMS)</a></li>
+                    <li><a href="/DigitalDDAD">디지털컨버터(DD/AD)</a></li>
+                </ul>
+            </div>
+          
+            <a href="/resources">자료실</a>
+            <a href="/SparePart">Spare Part</a>
+            <a href="/support">고객지원</a>
+        </nav>
+    </header>
+
+    <!-- 💡 본문 영역: 혁신적인 타임라인 디자인 적용 회사연혁 -->
+    <main class="main-content">
+        <div class="greeting-container">
+            <h1 class="greeting-title">회사연혁</h1>
+            <div class="greeting-body">
+                <div class="history-list">
+                    <div class="history-item">
+                        <div class="history-year">1990년 1월</div>
+                        <div class="history-desc">주식회사 테크코리아 설립</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">1993년 9월</div>
+                        <div class="history-desc">(주)테크코리아 상표등록</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">1994년 10월</div>
+                        <div class="history-desc">밧데리 비중센서 특허출원 (제26646호)</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">1997년 10월</div>
+                        <div class="history-desc">밧데라 감시 시스템 특허취득 (제126420호)</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">1998년 6월</div>
+                        <div class="history-desc">환경감시시스템(TMS, D/L , FEP )Serise 개발</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">1998년 7월</div>
+                        <div class="history-desc">정통부 98경쟁력강화기반기술사업 선정 | 산업용 Intelligent I/O Computer</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2000년 4월</div>
+                        <div class="history-desc">벤처기업확인(중소기업청)</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2003년 4월</div>
+                        <div class="history-desc">원자력연구소(KAERI)와 DPPS SYSTEM 공동개발</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2004년 8월</div>
+                        <div class="history-desc">울진 원자력 발전소용 CPC 장비 I/O 장비 I/O Simulator 개발및 납품 (KOPEC과 공동 개발연구 과제)</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2005년 6월</div>
+                        <div class="history-desc">유속측정시스템 개발(TVS05-T01)</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2008년 3월</div>
+                        <div class="history-desc">KOPEC 연구용 CPC 장비 응답시험시험기 개발 납품(LISP)</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2008년 10월</div>
+                        <div class="history-desc">원자로 제어봉 구동코일(CEDM) 제어기용 시험기 개발 및 신고리 1,2호기 납품</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2013년 11월</div>
+                        <div class="history-desc">환경 TMS 기여 환경부 표창 수여</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2014년 3월</div>
+                        <div class="history-desc">유속측정시스템(XFLOW-10) 개발</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2015년 1월</div>
+                        <div class="history-desc">이중화 DATA LOGGER 개발 (KTE-1400D+)</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2016년 12월</div>
+                        <div class="history-desc">이중화 Data Logger 특허증<br>(특허 제10-1688385호: 발명명칭 '유해환경물질 원격이중화감시시스템 및 이외운영방법')</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2018년 11월</div>
+                        <div class="history-desc">ISO9001:2015인증 취득</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2019년 8월</div>
+                        <div class="history-desc">사물인터넷 IOT Data Logger XT-100 개발</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2020년 2월</div>
+                        <div class="history-desc">Data Logger KTE-4000D+ / 6000D+ 개발 (WINDOWS 용)</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2023년 5월</div>
+                        <div class="history-desc">Data KTE-4000F+ / 6000F+ 개발 (WINDOWS 용)</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2023년 9월</div>
+                        <div class="history-desc">Flare Stack Data Logger KTE-4000D+ 개발</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2023년 10월</div>
+                        <div class="history-desc">이중화 Data FEP 개발 (KTE-6000DF+) - Redundant System</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2024년 6월</div>
+                        <div class="history-desc">KTE-200D New DD Converter Development (Special Version) 개발</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-year">2024년 11월</div>
+                        <div class="history-desc">HMI System 개발 (NOBA TMS) - 통합 관제 시스템 (굴뚝·수질·대기)</div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="greeting-signature">
+                (주)테크코리아
+            </div>
+        </div>
+    </main>
+
+    <!-- 푸터 영역 -->
+    <footer>
+        <div class="footer-content">
+            <p class="company-info">(주)테크코리아 (TechKorea)</p>
+            <p>주소: 서울시 금천구 디지털로130,1114호 (남성프라자)</p>
+            <p>이메일: tech-korea@naver.com | 전화번호: 02-862-3251 | 팩스 : 02-865-3251</p>
+            <p style="margin-top: 10px; font-size: 12px; color: #6c757d;">Copyright © Techkorea Co., Ltd. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
